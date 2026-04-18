@@ -36,4 +36,6 @@ pnpm dlx shadcn@latest init --template next
 pnpm dlx shadcn@latest add button card input
 
 pnpm add next-themes
+pnpm dlx shadcn@latest add dropdown-menu
+
 ```
