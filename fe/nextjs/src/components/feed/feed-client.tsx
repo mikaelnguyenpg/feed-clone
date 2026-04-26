@@ -8,14 +8,16 @@ import { fetchFeed } from "@/lib/api";
 
 interface FeedClientProps {
   initialPosts: Post[],
+  initialCursor: string | null
 }
 
 export function FeedClient({
   initialPosts,
+  initialCursor,
 } : FeedClientProps) {
   // 1) Build initialData with correct shape: InfiniteData<FeedPage>
   const initialData: InfiniteData<FeedPage> = {
-    pages: [{ items: initialPosts, nextCursor: "6" }],
+    pages: [{ items: initialPosts, nextCursor: initialCursor }],
     pageParams: [null],
   }
 
