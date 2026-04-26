@@ -44,13 +44,9 @@ const MOCK_POSTS = [
 ];
 
 export default function Home() {
-  const initialPosts = MOCK_POSTS;
-
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between px-16 bg-white dark:bg-black sm:items-start">
-        <FeedClient initialPosts={initialPosts} />
-      </main>
+    <div className="flex flex-col flex-1 w-full justify-center font-sans bg-white dark:bg-black">
+      <FeedClient initialPosts={MOCK_POSTS} />
     </div>
   );
 }
