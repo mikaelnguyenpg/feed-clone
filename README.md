@@ -15,6 +15,7 @@ npm run dev
 # --- BE ---
 cd be
 cargo generate --git https://github.com/dangos-dev/AxumStarterTemplate.git
+# cargo generate --git https://github.com/launchbadge/realworld-axum-sqlx.git
 cargo run
 ```
 
@@ -35,7 +36,10 @@ pnpm dlx shadcn@latest init --template next
 # 4. Thêm các component cần thiết (ví dụ button, card, input)
 pnpm dlx shadcn@latest add button card input
 
+# Next.js - next-themes: https://ui.shadcn.com/docs/dark-mode/next
 pnpm add next-themes
-pnpm dlx shadcn@latest add dropdown-menu
-
+pnpm dlx shadcn@latest add dropdown-menu avatar
+pnpm add lucide-react
+pnpm add @tanstack/react-virtual
+pnpm add @tanstack/react-query-devtools
 ```

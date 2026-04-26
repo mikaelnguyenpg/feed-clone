@@ -1,3 +1,6 @@
+env:
+	nix develop ./flake
+
 dev-fe:
 	cd fe/nextjs && pnpm dev
 

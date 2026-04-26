@@ -1,0 +1,40 @@
+{
+    "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.17.0/.schema/devbox.schema.json",
+    "packages": [
+      "rustup@latest",
+      "nodejs_22@latest",
+      "pnpm@latest",
+      "postgresql@latest",
+      "pkg-config@latest",
+      "openssl.dev",
+      "cargo-watch@latest",
+      "cargo-expand@latest",
+      "sqlx-cli@latest"
+    ],
+    "env": {
+      "SQLX_OFFLINE": "false",
+      "RUSTC_WRAPPER": "" 
+    },
+    "shell": {
+      "init_hook": [
+        "echo 'Welcome to devbox!' > /dev/null",
+        "rustup default stable > /dev/null 2>&1",
+        "rustup component add rust-analyzer rust-src clippy rustfmt > /dev/null 2>&1",
+        "rustup target add wasm32-unknown-unknown > /dev/null 2>&1",
+        "export PKG_CONFIG_PATH=\"$(devbox global info pkg-config --path)/lib/pkgconfig:$PKG_CONFIG_PATH\"",
+        "echo '🚀 Môi trường Devbox cho Next.js & Rust đã sẵn sàng!'",
+        "echo '🦀 Rust: $(rustc --version)'",
+        "echo '⚛️ Node: $(node --version)'"
+      ],
+      "scripts": {
+        "test": [
+          "echo \"Error: no test specified\" && exit 1"
+        ],
+        "dev:fe": "cd frontend && pnpm dev",
+        "dev:be": "cd backend && cargo watch -x run",
+        "db:start": "pg_ctl -D .postgres_data -l logfile start",
+        "db:stop": "pg_ctl -D .postgres_data stop"
+      }
+    }
+  }
+  
