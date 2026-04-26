@@ -1,8 +1,9 @@
+import { Post } from "@/lib/type";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Card, CardContent, CardHeader } from "../ui/card";
 
 interface PostCardProps {
-  post: any,
+  post: Post,
 }
 
 export function PostCard({
@@ -24,6 +25,22 @@ export function PostCard({
 
       <CardContent>
         <p>{post.content}</p>
+
+        {post.images && post.images?.length > 0 && (
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            {post.images.map(img => (
+              <div key={img} className="relative aspect-video w-full overflow-hidden rounded-md bg-muted">
+                <img
+                  key={img}
+                  src={img}
+                  alt=""
+                  // className="rounded-md object-cover"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   )

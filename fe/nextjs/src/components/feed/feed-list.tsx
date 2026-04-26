@@ -21,6 +21,7 @@ export function FeedList({
     getScrollElement: () => parentRef.current,
     estimateSize: () => 130,
     overscan: 5,
+    measureElement: (el) => el.getBoundingClientRect().height,
     onChange: (instance) => {
       const lastItem = instance.getVirtualItems().at(-1);
       if (lastItem && lastItem.index >= posts.length - 1 && hasMore) {
@@ -56,6 +57,8 @@ export function FeedList({
             return (
               <div
                 key={post.id}
+                data-index={virtualRow.index}
+                ref={virtualizer.measureElement}
                 style={{
                   position: "absolute",
                   top: 0,
