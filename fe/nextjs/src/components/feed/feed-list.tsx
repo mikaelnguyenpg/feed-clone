@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { PostCard } from "./post-card";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { Post } from "@/lib/type";
 
 interface FeedListProps {
-  posts: any[],
+  posts: Post[],
   onLoadMore: () => void,
   hasMore: boolean,
 }
@@ -15,57 +16,59 @@ export function FeedList({
 } : FeedListProps) {
   const parentRef = useRef<HTMLDivElement>(null);
 
-  const rowVirtualizer = useVirtualizer({
+  const virtualizer = useVirtualizer({
     count: posts.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 130,
     overscan: 5,
+    onChange: (instance) => {
+      const lastItem = instance.getVirtualItems().at(-1);
+      if (lastItem && lastItem.index >= posts.length - 1 && hasMore) {
+        console.log("-> feed-list hasMore: ", hasMore,
+          " - posts.length: ", posts.length,
+          // " - posts: ", posts,
+          " - virtualItems.length: ", virtualItems.length, 
+          " - virtualItems.lastIndex: ", virtualItems[virtualItems.length - 1]?.index,
+          "\n --- virtualItems: ", virtualItems, 
+        );
+        console.log("-> feed-list lastItem: ", lastItem);
+        onLoadMore();
+      }
+    },
   });
 
-  useEffect(() => {
-    console.log("-> feed-list l.26 hasMore: ", hasMore,
-      " - posts.length: ", posts.length,
-      " - posts: ", posts,
-    );
-    const virtualItems = rowVirtualizer.getVirtualItems();
-    console.log("-> feed-list l.28 virtualItems: ", virtualItems);
-    const [last] = virtualItems.slice(-1);
-    console.log("-> feed-list l.30 last: ", last);
-
-    if (last && last.index >= posts.length - 1 && hasMore) {
-      onLoadMore();
-    }
-  }, [rowVirtualizer.getVirtualItems(), hasMore, onLoadMore, posts.length]);
+  const virtualItems = virtualizer.getVirtualItems();
 
   return (
-    <div ref={parentRef} className="h-[calc(100vh-5rem)] overflow-auto p-2">
-      <div
-        style={{
-          height: `${rowVirtualizer.getTotalSize()}px`,
-          position: "relative",
-        }}
-      >
-        {rowVirtualizer.getVirtualItems().map(virtualRow => {
-        // {[...Array(10).keys()].map(index => {
-          const post = posts[virtualRow.index];
-          {/* const post = posts[index]; */}
+      <div ref={parentRef} className="h-[calc(100vh-10rem)] overflow-auto p-2">
+        <div
+          style={{
+            height: `${virtualizer.getTotalSize()}px`,
+            position: "relative",
+          }}
+        >
+          {virtualizer.getVirtualItems().map(virtualRow => {
+          // {[...Array(10).keys()].map(index => {
+            const post = posts[virtualRow.index];
+            {/* const post = posts[index]; */}
+            if (!post) return null;
 
-          return (
-            <div
-              key={post.id}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                transform: `translateY(${virtualRow.start}px)`
-              }}
-            >
-              <PostCard post={post} />
-            </div>
-          )
-        })}
+            return (
+              <div
+                key={post.id}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  transform: `translateY(${virtualRow.start}px)`
+                }}
+              >
+                <PostCard post={post} />
+              </div>
+            )
+          })}
+        </div>
       </div>
-    </div>
   )
 }
