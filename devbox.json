@@ -30,8 +30,22 @@
         "test": [
           "echo \"Error: no test specified\" && exit 1"
         ],
-        "dev:fe": "cd frontend && pnpm dev",
-        "dev:be": "cd backend && cargo watch -x run",
+        "init:fe:ui": [
+          "echo 1 && pwd && pnpm -C $DEVBOX_PROJECT_ROOT/fe/nextjs add -D tailwindcss postcss autoprefixer",
+          "echo 2 && pwd && cd $DEVBOX_PROJECT_ROOT/fe/nextjs && pnpm dlx shadcn@latest init --template next",
+          "echo 3 && pwd && cd $DEVBOX_PROJECT_ROOT/fe/nextjs && pnpm dlx shadcn@latest add button card input dropdown-menu avatar"
+        ],
+        "init:fe:libs": [
+          "echo 4 && pwd && pnpm -C $DEVBOX_PROJECT_ROOT/fe/nextjs add next-themes lucide-react",
+          "echo 5 && pwd && pnpm -C $DEVBOX_PROJECT_ROOT/fe/nextjs add @tanstack/react-virtual @tanstack/react-query-devtools",
+          "echo 6 && pwd && pnpm -C $DEVBOX_PROJECT_ROOT/fe/nextjs add -D @faker-js/faker"
+        ],
+        "init:fe": [
+          "devbox run init:fe:ui",
+          "devbox run init:fe:libs"
+        ],
+        "dev:fe": "pnpm -C $DEVBOX_PROJECT_ROOT/fe/nextjs dev",
+        "dev:be": "cd be/axum-realworld && cargo watch -x run",
         "db:start": "pg_ctl -D .postgres_data -l logfile start",
         "db:stop": "pg_ctl -D .postgres_data stop"
       }

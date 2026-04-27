@@ -34,12 +34,12 @@ pnpm add -D tailwindcss postcss autoprefixer
 pnpm dlx shadcn@latest init --template next
 
 # 4. Thêm các component cần thiết (ví dụ button, card, input)
-pnpm dlx shadcn@latest add button card input
+pnpm dlx shadcn@latest add button card input dropdown-menu avatar
 
 # Next.js - next-themes: https://ui.shadcn.com/docs/dark-mode/next
-pnpm add next-themes
-pnpm dlx shadcn@latest add dropdown-menu avatar
-pnpm add lucide-react
-pnpm add @tanstack/react-virtual
-pnpm add @tanstack/react-query-devtools
+pnpm add next-themes lucide-react
+
+pnpm add @tanstack/react-virtual @tanstack/react-query-devtools
+
+pnpm add -D @faker-js/faker
 ```
